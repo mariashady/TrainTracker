@@ -32,7 +32,7 @@ $(document).ready(function () {
         
         
         
-    }
+    };
     
     $("#submit").on("click", function() {
         addTrain();
@@ -43,6 +43,24 @@ $(document).ready(function () {
         $("#frequency").val("");
     
 
+    });
+
+    database.ref().on("child_added", function(childSnapshot) {
+        console.log(childSnapshot.val());
+
+        let name = childSnapshot.val().name;
+        let destination = childSnapshot.val().destination;
+        let firstTrain = childSnapshot.val().firstTrain;
+        let frequency = childsnapshot.val().frequency;
+
+        let newRow = $("<tr>").append(
+            $("<td>").text(name),
+            $("<td>").text(destination),
+            $("<td>").text(firstTrain),
+            $("<td>").text(frequency),
+
+        );
+        $("#info-table > tbody").append(newRow);
     });
 
 
