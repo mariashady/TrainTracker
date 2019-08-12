@@ -26,14 +26,25 @@ $(document).ready(function () {
    
         }
         console.log(newTrain);
-    
-        database.ref("trains").push(newTrain)
-         
-    }
 
+        database.ref("trains").push(newTrain)
+
+        
+        
+        
+    }
+    
     $("#submit").on("click", function() {
         addTrain();
 
-    })
+        $("#train-name").val("");
+        $("#destination").val("");
+        $("#first-train").val("");
+        $("#frequency").val("");
+    
+
+    });
+
+
 
 });
