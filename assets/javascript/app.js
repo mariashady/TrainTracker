@@ -15,6 +15,7 @@ $(document).ready(function () {
 
 
     let database = firebase.database()
+    
 
 
     function addTrain() {
@@ -28,10 +29,7 @@ $(document).ready(function () {
         console.log(newTrain);
 
         database.ref("trains").push(newTrain)
-
-        
-        
-        
+   
     };
     
     $("#submit").on("click", function() {
@@ -45,7 +43,7 @@ $(document).ready(function () {
 
     });
 
-    database.ref().on("child_added", function(childSnapshot) {
+    database.ref("trains").on("child_added", function(childSnapshot) {
         console.log(childSnapshot.val());
 
         let name = childSnapshot.val().name;
@@ -54,13 +52,13 @@ $(document).ready(function () {
         let frequency = childsnapshot.val().frequency;
 
         let newRow = $("<tr>").append(
-            $("<td>").text(name),
+            $("<td>").text(snapShot.val().name),
             $("<td>").text(destination),
             $("<td>").text(firstTrain),
             $("<td>").text(frequency),
 
         );
-        $("#info-table > tbody").append(newRow);
+        $("#info-table").append(newRow);
     });
 
 
