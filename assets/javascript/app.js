@@ -49,10 +49,10 @@ $(document).ready(function () {
         let name = childSnapshot.val().name;
         let destination = childSnapshot.val().destination;
         let firstTrain = childSnapshot.val().firstTrain;
-        let frequency = childsnapshot.val().frequency;
+        let frequency = childSnapshot.val().frequency;
 
         let newRow = $("<tr>").append(
-            $("<td>").text(snapShot.val().name),
+            $("<td>").text(name),
             $("<td>").text(destination),
             $("<td>").text(firstTrain),
             $("<td>").text(frequency),
