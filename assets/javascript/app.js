@@ -17,7 +17,7 @@ $(document).ready(function () {
     let database = firebase.database()
     
 
-
+    // Stores user input into an object
     function addTrain() {
         let newTrain = {
             name: $("#train-name").val().trim(),
@@ -27,14 +27,14 @@ $(document).ready(function () {
    
         }
         console.log(newTrain);
-
+        // Pushes user input into database
         database.ref("trains").push(newTrain)
    
     };
     
     $("#submit").on("click", function() {
         addTrain();
-
+        //Empties fields after user submits
         $("#train-name").val("");
         $("#destination").val("");
         $("#first-train").val("");
@@ -46,20 +46,36 @@ $(document).ready(function () {
     database.ref("trains").on("child_added", function(childSnapshot) {
         console.log(childSnapshot.val());
 
-        let name = childSnapshot.val().name;
-        let destination = childSnapshot.val().destination;
-        let firstTrain = childSnapshot.val().firstTrain;
-        let frequency = childSnapshot.val().frequency;
+        let snapshotObj = childSnapshot.val();
+        let currentTime = moment();
+        console.log(moment());
+        let newTrainName = snapshotObj.name;
+        let newDestination = snapshotObj.destination;
+        let firstTrain = moment(snapshotObj.firstTrain, "HH:mm");
+        let freq = snapshotObj.frequency;
+        let difference = currentTime.diff(firstTrain, "minutes");
+        let remainder = difference % freq;
+        let minAway = freq - remainder;
+        let nextArrival = currentTime.add(minAway, "minutes")
 
-        let newRow = $("<tr>").append(
-            $("<td>").text(name),
-            $("<td>").text(destination),
-            $("<td>").text(firstTrain),
-            $("<td>").text(frequency),
+        let newName = $("<td>");
+        let newDest = $("<td>");
+        let newFreq = $("<td>");
+        let newArrival = $("<td>");
+        let newMinAway = $("<td>");
 
-        );
-        $("#info-table").append(newRow);
+        let newTableRow = $("<tr>").append(
+
+            newName.text(newTrainName),
+            newDest.text(newDestination),
+            newFreq.text(freq),
+            newArrival.text(nextArrival.format("LT")),
+            newMinAway.text(minAway)
+        )
+        $("#info-table").append(newTableRow);
     });
+
+    
 
 
 
